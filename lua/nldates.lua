@@ -89,6 +89,13 @@ M.replace_selection = function(opts)
    opts = opts or {}
    local format = opts.format or config.format
 
+   if not vim.g.node_host_prog then
+      vim.g.node_host_prog = vim.fn.exepath("neovim-node-host")
+   end
+   if vim.fn.executable("neovim-node-host") == 0 then
+      error("neovim-node-host is not installed or not in PATH")
+   end
+
    local selection = get_visual_selection()
    assert(selection, "no selection")
    assert(selection.csrow == selection.cerow, "cnot do multiline")
