@@ -23,7 +23,13 @@ Run `:checkhealth provider` in Neovim to verify your Node provider is working.
 ```lua
 return {
    "obsidian-nvim/nldates.nvim",
-   build = "cd rplugin/node/nldates; npm install",
+   build = function()
+      if not vim.g.node_host_prog then
+         vim.g.node_host_prog = vim.fn.exepath("neovim-node-host")
+      end
+      vim.fn.jobstart("cd rplugin/node/nldates; npm install")
+      vim.cmd("UpdateRemotePlugins")
+   end,
 }
 ```
 
