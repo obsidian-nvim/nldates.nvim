@@ -91,8 +91,7 @@ M.replace_selection = function(opts)
 
    local selection = get_visual_selection()
    assert(selection, "no selection")
-   assert(selection.csrow ~= selection.cerow, "cnot do multiline")
-   assert(#selection.lines == 1, "empty selection")
+   assert(selection.csrow == selection.cerow, "cnot do multiline")
 
    local word = vim.trim(selection.lines[1])
    local res = vim.fn.NLDATE(word, format)
