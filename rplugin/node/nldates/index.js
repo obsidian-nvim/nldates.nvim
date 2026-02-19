@@ -9,7 +9,7 @@ module.exports = (plugin) => {
       if (results.length === 0) return;
 
       const parsedDate = results[0].date();
-      const formatted = moment(parsedDate).format(fmt || "YYYY-MM-DD");
+      const formatted = moment(parsedDate).format(fmt);
       return formatted;
     },
     { sync: true },
