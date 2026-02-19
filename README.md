@@ -10,9 +10,9 @@ Natural language dates for Neovim. Parse date strings like "next Friday", "tomor
 
 ## Requirements
 
-- Neovim >= 0.9.0
-- Node.js >= 18
-- npm
+- `Neovim` >= 0.9.0
+- `Node.js` >= 18
+- `npm`
 
 Run `:checkhealth provider` in Neovim to verify your Node provider is working.
 
@@ -47,50 +47,42 @@ Restart Neovim after installation.
 Select a date string in visual mode and run:
 
 ```vim
-:'<,'>lua require("nldates").parse()
+:'<,'>lua require("nldates").replace_selection()
 ```
 
 ### Keybinding
 
+#### Replace date
+
 ```lua
-vim.keymap.set("v", "gd", function()
-   require("nldates").parse()
-end, { silent = true })
+vim.keymap.set("v", "<leader>nd", function()
+   require("nldates").replace_selection()
+end)
 ```
 
 Select `next friday` and press `gd` → becomes `2025-02-21`
 
-### Advanced Callback
+#### Format with moment.js
+
+See https://momentjs.com/docs/#/displaying/format/ for full reference.
 
 ```lua
-vim.keymap.set("v", "gdf", function()
-   require("nldates").parse({
-      format = "YYYY-MM-DD",
-      callback = function(result)
-         return "📅 " .. result
-      end,
-   })
-end, { silent = true })
+vim.keymap.set("v", "<leader>nd", function()
+   require("nldates").replace_selection({ format = "[[][[]YYYY-MM-DD[]][]]" })
+end)
 ```
+
+Select `next friday` and press `gd` → becomes `2025-02-21`
 
 ## API
 
-### require("nldates").parse(opts?)
+### require("nldates").replace_selection(opts?)
 
 Parses the visual selection as a natural language date and replaces it.
 
 **Options:**
 
 - `format` (string): Output format. Default: `"YYYY-MM-DD"`
-- `callback` (function): Transform the result before insertion
-
-**Errors:** Throws `"can not do multiline"` if selection spans multiple lines.
-
-## Format Tokens
-
-Moment.js tokens: `YYYY` (2025), `MM` (02), `DD` (21), `MMMM` (February), `dddd` (Friday), `HH:mm` (14:30)
-
-See https://momentjs.com/docs/#/displaying/format/ for full reference.
 
 ## Supported Date Formats
 
